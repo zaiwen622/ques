@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package proto.common;
+
+option go_package = "./common;common";
+
+import "google/protobuf/empty.proto";
+
+message Pager {
+    int32 page  = 1; // 页码
+    int32 limit = 2; // 分页数
+    int32 total = 3; // 总数，做返回值时有
+    enum Sort {
+        ASC=0;
+        DESC=1;
+    }//排序
+    string sort = 4;//排序字段
+    Sort  order = 5; // 排序方式
+}

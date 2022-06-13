@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package proto.common;
+
+option go_package = "./common;common";
+
+message Reply {
+    string msg = 1; // 提示消息
+    int32 code = 2; // 状态
+}

@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package proto.service;
+
+option go_package = "./service;service";
+
+import "proto/common/Pager.proto";
+import "proto/common/Reply.proto";
+
+/**
+ * @tag 问卷后台接口
+ * @controller question_handle
+ * @module ques
+ */
+service QuestionHandleService {
+
+    /**
+     * @title 问卷列表
+     */
+    rpc list(QuesListParams) returns (QuesList) {}
+
+    /**
+     * @title 开启/停用问卷
+     */
+    rpc changeStatus(ChangeStatusParams) returns (proto.common.Reply) {}
+
+}
+
+message QuesListParams {
+    int32  groupId = 1;                          //分组ID
+    string title = 2;                           //问卷名称
+    int32  templateType = 3;                     //问卷类型：1->考核问卷，2->调研问卷
+    int32 moduleType = 4;                       //投放渠道：0->无，1->单独使用，2->监课，3->教研师训 ;招聘=4
+    int32  status = 5;                           //问卷状态：1->不启用，2->启用
+    int32  page = 6;                             //页码
+    int32  limit = 7;                            //页数
+    int32 creatorId = 8;                        //创建人ID
+}
+
+
+message QuesList {
+    int32 code = 1;                             //code
+    string  msg = 2;                            //msg
+    repeated QuesListData data = 3;             //数据
+    proto.common.Pager page =4;
+}
+
+message QuesListData {
+    sint32  id = 1;                               //问卷ID
+    string title = 2;                            //问卷标题
+    int32 templateType = 3;                     //模板类型，1考核问卷 2调研问卷
+    int32  moduleType = 4;                       //投放渠道枚举
+    string moduleTypeName = 5;                   //投放渠道名称字符串
+    string group = 6;                            //分组
+    int32 status = 8;                            //问卷状态：1->不启用，2->启用
+    string updateTime = 9;                       //更新时间
+    string Operator = 10;                        //操作人
+    int32 reportTotal = 11;                      //回收量
+    string needRevleChk = 12;                    //关联校验,1-已开启并关联,0-未开启或已开启未关联
+    string templateCode = 13;                    //问卷hash
+    string previewUrl = 14;                     //预览URL
+    int32 targetType = 15;                      //目标类型：1-员工，2-用户
+}
+message ChangeStatusParams {
+    int32 id = 1;                               //问卷ID
+    int32 status = 2;                           //问卷状态：1->不启用，2->启用
+}
